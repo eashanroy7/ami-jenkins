@@ -8,8 +8,8 @@ on:
 jobs:
   packer_build_image:
     runs-on: ubuntu-latest
-    environment: ${{ vars.ENVIRONMENT }}
-    name: Build AWS Custom AMI for Jenkins (w/ Caddy)
+#    environment: ${{ vars.ENVIRONMENT }}
+    name: Build AWS Custom AMI for Jenkins with Caddy
     steps:
       - uses: actions/checkout@v3
 
