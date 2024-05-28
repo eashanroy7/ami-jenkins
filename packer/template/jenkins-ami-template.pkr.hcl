@@ -117,6 +117,11 @@ build {
     destination = "/home/ubuntu/plugins.txt"
   }
 
+  provisioner "file" {
+    source      = "./jenkins/JCasC.yaml"
+    destination = "/home/ubuntu/jenkins.yaml"
+  }
+
   provisioner "shell" {
     name = "Installs Jenkins and all its dependencies, starts the service"
     scripts = [
