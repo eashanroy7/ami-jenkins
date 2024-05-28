@@ -50,12 +50,6 @@ wget --quiet \
 sudo java -jar ./jenkins-plugin-manager-2.12.13.jar --war /usr/share/java/jenkins.war \
   --plugin-download-directory /var/lib/jenkins/plugins --plugin-file /home/ubuntu/plugins.txt
 
-# Move Jenkins config to Jenkins home
-sudo mv /home/ubuntu/jenkins.yaml /var/lib/jenkins/jenkins.yaml
-
-# Correct the ownership of the Jenkins directory and its contents
-sudo chown -R jenkins:jenkins /var/lib/jenkins/
-
 # Update users and group permissions to `jenkins` for all installed plugins:
 cd /var/lib/jenkins/plugins/ || exit
 sudo chown jenkins:jenkins ./*
@@ -70,12 +64,4 @@ sudo mkdir -p /etc/systemd/system/jenkins.service.d/
 # Restart jenkins service
 sudo systemctl daemon-reload
 sudo systemctl stop jenkins
-sleep 5  # Ensure Jenkins is fully stopped
 sudo systemctl start jenkins
-
-echo "Sleeping to allow Jenkins to start..."
-sleep 10
-
-echo "Collecting and displaying Jenkins service logs..."
-journalctl -u jenkins.service --since "10 minutes ago" > jenkins_startup_logs.txt
-cat jenkins_startup_logs.txt
