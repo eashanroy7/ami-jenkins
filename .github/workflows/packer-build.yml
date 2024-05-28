@@ -23,8 +23,8 @@ jobs:
 
       - name: Prepare JCasC file
         run: |
-          sed -i 's/ADMIN_USER/${{ secrets.JENKINS_ADMIN_USER }}/g' /jenkins/JCasC.yaml
-          sed -i 's/ADMIN_PASSWORD/${{ secrets.JENKINS_ADMIN_PASSWORD }}/g' /jenkins/JCasC.yaml
+          sed -i 's/ADMIN_USER/${{ secrets.JENKINS_ADMIN_USER }}/g' jenkins/JCasC.yaml
+          sed -i 's/ADMIN_PASSWORD/${{ secrets.JENKINS_ADMIN_PASSWORD }}/g' jenkins/JCasC.yaml
         shell: bash
 
       - name: Create & configure Packer variables
