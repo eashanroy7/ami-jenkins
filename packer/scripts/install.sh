@@ -50,6 +50,13 @@ wget --quiet \
 sudo java -jar ./jenkins-plugin-manager-2.12.13.jar --war /usr/share/java/jenkins.war \
   --plugin-download-directory /var/lib/jenkins/plugins --plugin-file /home/ubuntu/plugins.txt
 
+# Move Jenkins config to Jenkins home
+sudo mv /home/ubuntu/jenkins.yaml /var/lib/jenkins/jenkins.yaml
+
+# Correct the ownership of the Jenkins directory and its contents
+sudo chown -R jenkins:jenkins /var/lib/jenkins/
+
+
 # Update users and group permissions to `jenkins` for all installed plugins:
 cd /var/lib/jenkins/plugins/ || exit
 sudo chown jenkins:jenkins ./*
@@ -58,14 +65,8 @@ sudo chown jenkins:jenkins ./*
 sudo mkdir -p /etc/systemd/system/jenkins.service.d/
 {
   echo "[Service]"
-  echo "Environment=\"JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\""
+  echo "Environment=\"JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/lib/jenkins/jenkins.yaml\""
 } | sudo tee /etc/systemd/system/jenkins.service.d/override.conf
-
-# Copy Jenkins Configuration as Code file
-sudo cp /home/ubuntu/jenkins.yaml /var/jenkins_home/casc_configs/jenkins.yaml
-
-# Set up environment variable for JCasC
-echo "Environment=\"CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml\"" | sudo tee -a /etc/systemd/system/jenkins.service.d/override.conf
 
 # Restart jenkins service
 sudo systemctl daemon-reload
