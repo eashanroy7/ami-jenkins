@@ -3,6 +3,9 @@
 # Set debconf to run in non-interactive mode
 export DEBIAN_FRONTEND=noninteractive
 
+# Exit immediately if a command exits with a non-zero status.
+set -e
+
 # This script installs, configures and starts Jenkins on the AMI
 
 ##########################################################################
@@ -56,7 +59,6 @@ sudo mv /home/ubuntu/jenkins.yaml /var/lib/jenkins/jenkins.yaml
 # Correct the ownership of the Jenkins directory and its contents
 sudo chown -R jenkins:jenkins /var/lib/jenkins/
 
-
 # Update users and group permissions to `jenkins` for all installed plugins:
 cd /var/lib/jenkins/plugins/ || exit
 sudo chown jenkins:jenkins ./*
@@ -71,4 +73,12 @@ sudo mkdir -p /etc/systemd/system/jenkins.service.d/
 # Restart jenkins service
 sudo systemctl daemon-reload
 sudo systemctl stop jenkins
+sleep 5  # Ensure Jenkins is fully stopped
 sudo systemctl start jenkins
+
+echo "Sleeping to allow Jenkins to start..."
+sleep 10
+
+echo "Collecting and displaying Jenkins service logs..."
+journalctl -u jenkins.service --since "10 minutes ago" > jenkins_startup_logs.txt
+cat jenkins_startup_logs.txt

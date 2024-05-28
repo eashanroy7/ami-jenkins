@@ -5,7 +5,7 @@ name: Packer AMI template validation
 
 on:
   pull_request:
-    branches: [main]
+    branches: main
 
 jobs:
   validate:
