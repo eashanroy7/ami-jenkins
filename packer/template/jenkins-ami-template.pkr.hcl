@@ -76,18 +76,18 @@ variable "device_name" {
   default     = "/dev/sda1"
 }
 
-#locals {
-#  timestamp = substr(regex_replace(timestamp(), "[- TZ:]", ""), 8, 13)
-#}
+locals {
+  formatted_timestamp = formatdate("YYYYMMDDHHmmss", timestamp())
+}
 
 source "amazon-ebs" "ubuntu" {
   region          = "${var.aws_region}"
-  ami_name        = "${var.ami_prefix}-${var.OS}-${var.ubuntu_version}-${formatdate("YYYYMMDDHHmmss", timestamp())}"
+  ami_name        = "${var.ami_prefix}-${var.OS}-${var.ubuntu_version}-${local.formatted_timestamp}"
   ami_description = "Ubuntu AMI for CSYE 7125"
   tags = {
-    Name         = "${var.ami_prefix}-${local.timestamp}"
+    Name         = "${var.ami_prefix}-${local.formatted_timestamp}"
     Base_AMI_ID  = "${var.source_ami}"
-    TimeStamp_ID = "${local.timestamp}"
+    TimeStamp_ID = "${local.formatted_timestamp}"
     OS_Version   = "${var.OS}"
     Release      = "${var.ubuntu_version}"
   }

@@ -1,16 +1,18 @@
 #!/bin/bash
 
+# Set debconf to run in non-interactive mode
+export DEBIAN_FRONTEND=noninteractive
+
 # This script installs, configures and starts Jenkins on the AMI
 
 ##########################################################################
 ## Installing Jenkins and other dependencies
 
 # Update package information
-sudo apt update -y
+sudo apt-get update -y
 
-# Install Java (Required by Jenkins)
-sudo apt install openjdk-11-jdk -y
-sudo apt install maven -y
+# Install Java (Required by Jenkins) and Maven
+sudo apt-get install -y openjdk-11-jdk maven
 
 # Download the Jenkins repository key and saves it to /usr/share/keyrings/jenkins-keyring.asc,
 # which is used to authenticate packages
