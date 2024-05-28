@@ -61,6 +61,12 @@ sudo mkdir -p /etc/systemd/system/jenkins.service.d/
   echo "Environment=\"JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\""
 } | sudo tee /etc/systemd/system/jenkins.service.d/override.conf
 
+# Copy Jenkins Configuration as Code file
+sudo cp /home/ubuntu/jenkins.yaml /var/jenkins_home/casc_configs/jenkins.yaml
+
+# Set up environment variable for JCasC
+echo "Environment=\"CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs/jenkins.yaml\"" | sudo tee -a /etc/systemd/system/jenkins.service.d/override.conf
+
 # Restart jenkins service
 sudo systemctl daemon-reload
 sudo systemctl stop jenkins
