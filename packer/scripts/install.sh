@@ -9,7 +9,7 @@ export DEBIAN_FRONTEND=noninteractive
 ## Installing Jenkins and other dependencies
 
 # Update package information
-#sudo apt-get update -y
+sudo apt-get update -y
 
 # Install Java (Required by Jenkins) and Maven
 sudo apt-get install -y openjdk-11-jdk maven
@@ -26,7 +26,7 @@ echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
   /etc/apt/sources.list.d/jenkins.list > /dev/null
 
 # Update the package lists to include newly available packages from the added Jenkins repository.
-#sudo apt-get update
+sudo apt-get update
 
 # Install the Jenkins package from the newly added repository
 sudo apt-get install jenkins -y
