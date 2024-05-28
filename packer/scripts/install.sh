@@ -50,6 +50,12 @@ wget --quiet \
 sudo java -jar ./jenkins-plugin-manager-2.12.13.jar --war /usr/share/java/jenkins.war \
   --plugin-download-directory /var/lib/jenkins/plugins --plugin-file /home/ubuntu/plugins.txt
 
+# Move Jenkins config file to Jenkins home
+sudo cp /home/ubuntu/jenkins.yaml /var/lib/jenkins/
+
+# Make jenkins user and group owner of jenkins.yaml file
+sudo chown jenkins:jenkins /var/lib/jenkins/jenkins.yaml
+
 # Update users and group permissions to `jenkins` for all installed plugins:
 cd /var/lib/jenkins/plugins/ || exit
 sudo chown jenkins:jenkins ./*
@@ -58,7 +64,7 @@ sudo chown jenkins:jenkins ./*
 sudo mkdir -p /etc/systemd/system/jenkins.service.d/
 {
   echo "[Service]"
-  echo "Environment=\"JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false\""
+  echo "Environment=\"JAVA_OPTS=-Djava.awt.headless=true -Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/lib/jenkins/jenkins.yaml\""
 } | sudo tee /etc/systemd/system/jenkins.service.d/override.conf
 
 # Restart jenkins service
