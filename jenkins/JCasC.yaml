@@ -1,0 +1,30 @@
+# Jenkins Configuration as Code (JCasC)
+# This configuration file automates the setup of Jenkins, ensuring consistent settings across environments.
+
+jenkins:
+  # Message displayed on the Jenkins dashboard
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code"
+
+  # Number of executors defines how many builds can run simultaneously on this Jenkins master
+  numExecutors: 2
+
+  # Number of retry attempts Jenkins will make if SCM checkout encounters an error
+  scmCheckoutRetryCount: 2
+
+  # Configuring security settings for user authentication and authorization
+  securityRealm:
+    # Use Jenkins' own user database 'local' for authentication
+    local:
+      allowsSignup: false  # Disables the ability for visitors to sign up for an account
+      enableCaptcha: false  # Disables captcha to simplify automation processes
+      users:
+        # Define an administrative user with a specified ID and password
+        - id: "ADMIN_USER"  # Placeholder to be replaced
+          password: "ADMIN_PASSWORD"  # Placeholder to be replaced
+
+# Authorization configuration defining permissions for users
+authorizationStrategy:
+  globalMatrix:
+    permissions:
+      - "Administer:csye7125-admin"  # Only 'csye7125-admin' user has administrative permissions
+      - "Overall/Read:authenticated"  # All authenticated users can read Jenkins information
