@@ -1,30 +1,26 @@
 # Jenkins Configuration as Code (JCasC)
-# This configuration file automates the setup of Jenkins, ensuring consistent settings across environments.
+# This configuration automates the setup of Jenkins, ensuring consistent settings across different environments.
 
 jenkins:
-  # Message displayed on the Jenkins dashboard
-  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code"
+  # The system message to be displayed on the Jenkins dashboard. This is useful for providing status or environment-specific information to users.
+  systemMessage: "Automating Jenkins Setup using Docker and Jenkins Configuration as Code"
 
-  # Number of executors defines how many builds can run simultaneously on this Jenkins master
-  numExecutors: 2
+  # Configuration for Jenkins remoting security. When enabled, it helps secure Jenkins' agent-to-master operations.
+  remotingSecurity:
+    enabled: true  # Ensures that remoting security is enforced, which is crucial for avoiding unauthorized command execution.
 
-  # Number of retry attempts Jenkins will make if SCM checkout encounters an error
-  scmCheckoutRetryCount: 2
-
-  # Configuring security settings for user authentication and authorization
+  # Configuration for the security realm. This section defines how Jenkins handles authentication.
   securityRealm:
-    # Use Jenkins' own user database 'local' for authentication
     local:
-      allowsSignup: false  # Disables the ability for visitors to sign up for an account
-      enableCaptcha: false  # Disables captcha to simplify automation processes
+      allowsSignup: false  # Disables new user signups from the Jenkins login screen, which is important for managing users strictly via configuration.
       users:
-        # Define an administrative user with a specified ID and password
-        - id: "ADMIN_USER"  # Placeholder to be replaced
-          password: "ADMIN_PASSWORD"  # Placeholder to be replaced
+        # Creation of an admin user. This user will have access to configure Jenkins.
+        - id: "ADMIN_USER"  # Placeholder to be replaced with GitHub secrets via GitHub Actions workflow
+          password: "ADMIN_PASSWORD"  # Placeholder to be replaced with GitHub secrets via GitHub Actions workflow
 
-# Authorization configuration defining permissions for users
-authorizationStrategy:
-  globalMatrix:
-    permissions:
-      - "Administer:csye7125-admin"  # Only 'csye7125-admin' user has administrative permissions
-      - "Overall/Read:authenticated"  # All authenticated users can read Jenkins information
+  # Defines the authorization strategy and specifies permissions for various security roles.
+  authorizationStrategy:
+    globalMatrix:
+      permissions:
+        - "Overall/Administer:authenticated"  # Grants all authenticated users full administrative access to Jenkins.
+        - "Overall/Read:anonymous"  # Allows anonymous users to view pages in Jenkins, useful for public-facing Jenkins instances.
