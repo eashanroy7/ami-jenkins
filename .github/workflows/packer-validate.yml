@@ -38,8 +38,8 @@ jobs:
 
       - name: Packer Init, Format
         run: |
-          chmod +x packer/scripts/packer-format-validate.sh
-          packer/scripts/packer-format-validate.sh
+          chmod +x packer/scripts/packer-init-format-check.sh
+          packer/scripts/packer-init-format-check.sh
 
       - name: Validate Packer template
         id: validate
