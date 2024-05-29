@@ -1,4 +1,4 @@
-# Jenkins Configuration as Code (JCasC)
+# Jenkins Configuration as Code
 # This configuration automates the setup of Jenkins, ensuring consistent settings across different environments.
 
 jenkins:

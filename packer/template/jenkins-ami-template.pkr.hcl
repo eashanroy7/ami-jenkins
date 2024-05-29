@@ -67,7 +67,7 @@ variable "volume_type" {
 variable "volume_size" {
   type        = string
   description = "EBS volume size"
-  default     = "50"
+  default     = "8"
 }
 
 variable "device_name" {
@@ -113,19 +113,19 @@ build {
   sources = ["source.amazon-ebs.ubuntu"]
 
   provisioner "file" {
-    source      = "./jenkins/plugins.txt"
-    destination = "/home/ubuntu/plugins.txt"
+    source      = "./jenkins/plugins-list.txt"
+    destination = "/home/ubuntu/plugins-list.txt"
   }
 
   provisioner "file" {
-    source      = "./jenkins/JCasC.yaml"
+    source      = "./jenkins/jenkins-config-as-code.yaml"
     destination = "/home/ubuntu/jenkins.yaml"
   }
 
   provisioner "shell" {
     name = "Installs Jenkins and all its dependencies, starts the service"
     scripts = [
-      "packer/scripts/install.sh"
+      "packer/scripts/installations.sh"
     ]
   }
 }
