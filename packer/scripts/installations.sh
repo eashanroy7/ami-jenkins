@@ -40,8 +40,7 @@ sudo systemctl --full status jenkins
 echo "Jenkins $(jenkins --version)"
 
 #########################################################################
-
-# Caddy(stable) installation docs: https://caddyserver.com/docs/install#debian-ubuntu-raspbian
+## Caddy(stable) installation docs: https://caddyserver.com/docs/install#debian-ubuntu-raspbian
 
 # Install and configure keyring for caddy stable release:
 sudo apt-get install -y debian-keyring debian-archive-keyring apt-transport-https
@@ -53,10 +52,8 @@ curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo 
 # Install caddy:
 sudo apt-get update && sudo apt-get install caddy -y
 
-
 # Enable Caddy service
 sudo systemctl enable caddy
-
 
 # Remove default Caddyfile
 sudo rm /etc/caddy/Caddyfile
@@ -80,7 +77,7 @@ wget --quiet \
 
 # Install plugins with jenkins-plugin-manager tool:
 sudo java -jar ./jenkins-plugin-manager-2.12.13.jar --war /usr/share/java/jenkins.war \
-  --plugin-download-directory /var/lib/jenkins/plugins --plugin-file /home/ubuntu/plugins.txt
+  --plugin-download-directory /var/lib/jenkins/plugins --plugin-file /home/ubuntu/plugins-list.txt
 
 # Move Jenkins config file to Jenkins home
 sudo cp /home/ubuntu/jenkins.yaml /var/lib/jenkins/
