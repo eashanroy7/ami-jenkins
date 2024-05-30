@@ -5,7 +5,7 @@ name: Packer AMI template validation
 
 on:
   pull_request:
-    branches: main
+    branches: [main]
 
 jobs:
   validate:
@@ -17,6 +17,7 @@ jobs:
 
       - name: Create & configure Packer variables
         run: |
+          cd packer/template
           touch jenkins-ami.pkrvars.hcl
           echo ami_prefix=\"${{ vars.AMI_PREFIX }}\" >> jenkins-ami.pkrvars.hcl
           echo OS=\"${{ vars.OS }}\" >> jenkins-ami.pkrvars.hcl
@@ -36,13 +37,18 @@ jobs:
         with:
           version: "latest"
 
-      - name: Packer Init, Format
+      - name: Packer Init
         run: |
-          chmod +x packer/scripts/packer-init-format-check.sh
-          packer/scripts/packer-init-format-check.sh
+          cd packer/template
+          packer init jenkins-ami-template.pkr.hcl
+
+      - name: Packer Format
+        run: |
+          cd packer/template
+          packer fmt -check .
 
       - name: Validate Packer template
         id: validate
-        run: "packer validate \
-          -var 'ami_users=${{ secrets.AMI_USERS }}' \
-          --var-file=jenkins-ami.pkrvars.hcl packer/template/jenkins-ami-template.pkr.hcl"
+        run: |
+          cd packer/template
+          packer validate -var 'ami_users=${{ secrets.AMI_USERS }}' --var-file=jenkins-ami.pkrvars.hcl jenkins-ami-template.pkr.hcl"
