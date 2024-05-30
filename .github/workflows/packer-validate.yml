@@ -49,4 +49,4 @@ jobs:
       - name: Validate Packer template
         id: validate
         run: 
-          packer validate -var 'ami_users=${{ secrets.AMI_USERS }}' --var-file=jenkins-ami.pkrvars.hcl packer/template/jenkins-ami-template.pkr.hcl"
+          packer validate -var 'ami_users=${{ secrets.AMI_USERS }}' --var-file=jenkins-ami.pkrvars.hcl packer/template/jenkins-ami-template.pkr.hcl
