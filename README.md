@@ -1,5 +1,6 @@
 # Jenkins AMI with Packer
 
+
 - Used Ubuntu 24.04 LTS as the source image  
 - AMI has Jenkins fully configured starting from plugin installation to automated user creation via Jenkins Configuration as Code  
 - Used Caddy as reverse proxy for Jenkins instance and set them up to get SSL certificate from Let's Encrypt on startup.
